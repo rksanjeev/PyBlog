@@ -29,20 +29,19 @@
 <!-- navbar-->
 
 <nav class="navbar navbar-default  techfont custom-navbar">
-    </div class="container">
+<!--    <div class="container">-->
     <ul class="nav navbar-nav">
         <li><a class="navbar-brand bigbrand" href="{% url 'post_list'%} ">PyBlog</a></li>
         <li><a href="{% url 'about'%}">About</a></li>
     </ul>
-    </div>
+<!--    </div>-->
 
-    <ul class=" nav navbar-nav navbar-right">
-        {% if user.is_uathenticated %}
+    <ul class=" nav navbar-nav navbar-right ul-nav">
+        {% if user.is_authenticated %}
         <li><a href="{% url 'post_new'%}">New Post</a></li>
         <li><a href="{% url 'post_drafts'%}">Drafts</a></li>
         <li><a href="{% url 'logout'%}">Logout</a></li>
-        <li>Welcome, {{ user.username }}</li>
-
+        <li class="user"><span class="glyphicon glyphicon-user"></span> {{ user.username }}</li>
         {% else %}
         <li><a href="{% url 'login'%}">Login</a></li>
         {%endif%}
