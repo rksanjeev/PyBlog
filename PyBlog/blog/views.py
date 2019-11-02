@@ -8,7 +8,8 @@ from django.views.generic import (
     UpdateView,
 )
 from django.urls import reverse_lazy
-from blog import models, forms
+import blog.models as models
+import blog.forms as forms
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -30,20 +31,20 @@ class PostListView(ListView):
         )
 
 
-class PostDetaiilView(DetailView):
+class PostDetailView(DetailView):
     model = models.Post
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     login_url = "/login/"
-    redeirect_field_name = "blog/post_detail.html"
+    redirect_field_name = "blog/post_detail.html"
     form_class = forms.PostForm
     model = models.Post
 
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
     login_url = "/login/"
-    redeirect_field_name = "blog/post_detail.html"
+    redirect_field_name = "blog/post_detail.html"
     form_class = forms.PostForm
     model = models.Post
 
@@ -55,7 +56,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
 
 class DraftListView(LoginRequiredMixin, ListView):
     login_url = "/login/"
-    redeirect_field_name = "blog/post_list.html"
+    redirect_field_name = "blog/post_list.html"
     model = models.Post
 
     def get_queryset(self):
@@ -73,10 +74,10 @@ def add_comment_to_post(request, pk):
             comment = form.save(commit=False)
             comment.post = post
             comment.save()
-            return redirect("post_detail", pk=post.pk)
+            return redirect('post_detail', pk=post.pk)
     else:
         form = forms.CommentForm()
-    return render(request, "blog/comment_form,html", {"form": form})
+    return render(request, "blog/comment_form.html", {"form": form})
 
 
 @login_required
@@ -85,12 +86,14 @@ def comment_approve(request, pk):
     comment.approve()
     return redirect("post_detail", pk=comment.post.pk)
 
+
 @login_required
 def comment_remove(request, pk):
     comment = get_object_or_404(models.Comments, pk=pk)
     post_pk = comment.post.pk
     comment.delete()
     return redirect("post_detail", pk=post_pk)
+
 
 @login_required
 def post_publish(request, pk):

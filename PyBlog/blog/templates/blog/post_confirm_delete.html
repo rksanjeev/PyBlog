@@ -2,7 +2,18 @@
 
 {% block content %}
 
+<form method="post">
+    {% csrf_token%}
+    <p>Are you sure, you want to delete {{object}}?</p>
+    <button type="submit" class="btn btn-danger">Confirm</button>
+    <button type="reset" onclick="goBack()" class="btn btn-primary">Go Back</button>
 
 
+</form>
 
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
 {% endblock %}

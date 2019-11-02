@@ -2,7 +2,23 @@
 
 {% block content %}
 
+<h1> New Post</h1>
+<br>
+<br>
+<div class="container container-fluid">
+<form  class="post-form" method = "POST">
+    <div class="form-row">
+    {%csrf_token%}
+    {{form.as_p}}
+    <button class="btn btn-success" name = "button" type="submit">
+        <span class="glyphicon glyphicon-floppy-saved"> Save</span></button>
+</div>
 
+</form>
+</div>
+<script>
+    var editor = new MediumEditor('.editable');
+</script>
 
 
 {% endblock %}
